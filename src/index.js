@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const breedUrl = "https://dog.ceo/api/breeds/list/all";
 	const dogImageContainer = document.querySelector("#dog-image-container");
 	const dogBreedList = document.querySelector("#dog-breeds");
-
+	const dogBreedSelector = document.querySelector("select#breed-dropdown");
+	let dogs;
 	fetch(imgUrl) //Loads imgages on page
 		.then((response) => response.json())
 		.then((dogObject) => {
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		.then((response) => response.json())
 		.then((dogsObject) => {
 			const dogBreedArray = Object.keys(dogsObject.message);
+			dogs = dogBreedArray;
 			dogBreedArray.forEach((breed) => {
 				const li = document.createElement("li");
 				li.textContent = breed;
@@ -27,4 +29,21 @@ document.addEventListener("DOMContentLoaded", () => {
 				dogBreedList.appendChild(li);
 			});
 		});
+
+	dogBreedSelector.addEventListener("change", (event) => {
+		const dogBreedSearchLetter = event.target.value;
+		displaySelectedBreeds(dogBreedSearchLetter);
+	});
+
+	function displaySelectedBreeds(letter) {
+		dogBreedList.innerHTML = "";
+		dogs.filter((breedName) => breedName[0] === letter).forEach((breed) => {
+			const li = document.createElement("li");
+			li.textContent = breed;
+			li.addEventListener("click", (event) => {
+				event.target.style.color = "#32a8452";
+			});
+			dogBreedList.appendChild(li);
+		});
+	}
 });
