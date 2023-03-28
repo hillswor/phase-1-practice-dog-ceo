@@ -21,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
 			dogBreedArray.forEach((breed) => {
 				const li = document.createElement("li");
 				li.textContent = breed;
+				li.addEventListener("click", (event) => {
+					event.target.style.color = "#32a852";
+				});
 				dogBreedList.appendChild(li);
 			});
 		});
